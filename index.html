@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sherlock's Treasure Hunt</title>
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: linear-gradient(145deg, #0f0f0f, #3a3a3a);
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h2, p {
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    input[type="text"], button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+    }
+
+    button {
+      background-color: #221b44;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ffcc00;
+      color: #000;
+    }
+
+    .step {
+      display: none;
+      margin: 20px auto;
+      padding: 20px;
+      background: rgba(20, 20, 20, 0.9);
+      border: 2px solid #4b0082;
+      border-radius: 10px;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .image-clue, .audio-clue {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .image-clue img, .audio-clue audio {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #4b0082;
+      border-radius: 10px;
+    }
+
+    .audio-container {
+      margin: 20px auto;
+      padding: 10px;
+      background: rgba(34, 27, 68, 0.8);
+      border: 2px solid #ffcc00;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .audio-label {
+      color: #ffcc00;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    audio {
+      width: 80%;
+      outline: none;
+      border-radius: 5px;
+    }
+
+    .congrats {
+      text-align: center;
+      margin-top: 20px;
+      background-color: rgba(34, 27, 68, 0.9);
+      border: 2px solid #ffcc00;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .congrats h2 {
+      color: #ffcc00;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .congrats code {
+      font-family: "Courier New", Courier, monospace;
+      color: #d63384;
+      font-size: 1.2em;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #888;
+    }
+
+    footer strong {
+      color: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sherlock's Treasure Hunt</h1>
+    <p>Decrypt the riddles, follow the clues, and uncover the final flag.</p>
+
+    <!-- Step 1 -->
+    <div id="step1" class="step active">
+      <h2>Step 1</h2>
+      <p><strong>Hint:</strong> The first clue lies hidden within the image below. Can you uncover it?</p>
+      <div class="image-clue">
+        <img src="final_challenge.jpg" alt="Final Challenge Clue">
+      </div>
+      <input type="text" id="step1_answer" placeholder="Enter the decoded phrase">
+      <button onclick="checkStep1()">Submit</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2" class="step">
+      <h2>Step 2</h2>
+      <p><strong>Hint:</strong> "The street where the detective resides holds secrets. Seek patterns in the ordinary."</p>
+      <div class="image-clue">
+        <img src="hidden_clue.png" alt="Hidden Clue">
+      </div>
+      <input type="text" id="step2_answer" placeholder="Enter the decoded clue">
+      <button onclick="checkStep2()">Submit</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step3" class="step">
+      <h2>Step 3</h2>
+      <p><strong>Hint:</strong> "Dashes and dots speak louder than words. Listen carefully."</p>
+      <h2>Clue 4: The Final Sound</h2>
+      <p>The clues have been pointing to something… or someone. But how will you reveal the last part of the mystery?</p>
+      <p>Listen carefully to the sound. A message is encoded there, in a language only you can decode.</p>
+      <audio controls>
+        <source src="the_file.wav" type="audio/wav">
+        Your browser does not support the audio element.
+      </audio>
+      <input type="text" id="step3_answer" placeholder="Enter the flag">
+      <button onclick="checkStep3()">Submit</button>
+    </div>
+
+    <!-- Step 4: Final Step -->
+    <div id="finalStep" class="step">
+      <h2>Final Step</h2>
+      <p>Enter the number from the decrypted C++ code to get the final flag.</p>
+      <input type="text" id="finalClue" placeholder="Enter the final number">
+      <button onclick="submitFinalClue()">Submit Final Clue</button>
+    </div>
+
+    <!-- Hidden Button for Download -->
+    <div id="downloadButton" style="display: none;">
+      <button onclick="downloadFinalClue()">Download Final Clue</button>
+    </div>
+
+    <footer>
+      <p>Inspired by Sherlock Holmes | <strong>The Game is Afoot!</strong></p>
+    </footer>
+  </div>
+
+  <script>
+    function checkStep1() {
+      const answer1 = document.getElementById('step1_answer').value.trim();
+      const correctAnswer1 = "SHERLOCK_SOLVE_THE_FIRST_PUZZLE"; // Answer to the image-based clue
+      if (answer1 === correctAnswer1) {
+        document.getElementById('step1').classList.remove('active');
+        document.getElementById('step2').classList.add('active');
+      } else {
+        alert("Incorrect! Try again.");
+      }
+    }
+
+    function checkStep2() {
+      const answer2 = document.getElementById('step2_answer').value.trim();
+      const correctAnswer2 = "221B Baker Street holds secrets; find the pattern in the ordinary.";
+      if (answer2 === correctAnswer2) {
+        document.getElementById('step2').classList.remove('active');
+        document.getElementById('step3').classList.add('active');
+      } else {
+        alert("Incorrect! Try again.");
+      }
+    }
+
+    function checkStep3() {
+      const answer3 = document.getElementById('step3_answer').value.trim();
+      const correctAnswer3 = "FLAG{ARTHUR_CONAN_DOYLE_MYSTERY_SOLVED}";
+      if (answer3 === correctAnswer3) {
+        document.getElementById('step3').classList.remove('active');
+        document.getElementById('finalStep').classList.add('active');
+      } else {
+        alert("Incorrect! Try again.");
+      }
+    }
+
+    function submitFinalClue() {
+      const finalClue = document.getElementById('finalClue').value.trim();
+
+      // Assuming 42 is the correct C++ extracted number.
+      const correctFinalClue = "42"; 
+
+      if (finalClue === correctFinalClue) {
+        document.getElementById('finalStep').style.display = 'none'; // Hide the final step
+        document.getElementById('downloadButton').style.display = 'block'; // Show download button
+      } else {
+        alert("Incorrect number! Try again.");
+      }
+    }
+
+    function downloadFinalClue() {
+      // Assuming you have a route '/api/final-clue' in your backend
+      fetch('/api/final-clue', {
+        method: 'GET',
+      })
+      .then(response => response.blob())
+      .then(data => {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(data);
+        downloadLink.download = 'final_flag.txt'; // The final flag file
+        downloadLink.click();
+      })
+      .catch(error => alert('Error downloading the final clue.'));
+    }
+  </script>
+</body>
+</html>
